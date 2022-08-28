@@ -1,0 +1,35 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+# define global settings here
+name: WeatherApp # application name
+# registry: exampleuser # dockerhub username or container registry hostname
+
+ingress:
+- name: ingress
+  bindings:
+    - port: 8080
+  rules:
+    - path: /
+      service: web-service
+
+# define multiple services here
+services:
+- name: web-service
+  executable: dapr  # path to an executable (relative to this file)
+  args: run --app-id node-app --app-port %PORT% --dapr-http-port 3501 --components-path . -- npm run start # arguments to pass to the process
+  # replicas: 5 # number of times to launch the application
+  workingDirectory: ./WebService/
+  bindings: # optional array of bindings (ports, connection strings)
+  - protocol: http
+- name: mailer-service
+  executable: dapr  # path to an executable (relative to this file)
+  args: run --app-id dotnet-app --app-port %PORT% --dapr-http-port 3500 --components-path . -- dotnet run # arguments to pass to the process
+  # replicas: 5 # number of times to launch the application
+  workingDirectory: ./MailerService/
+  bindings: # optional array of bindings (ports, connection strings)
+  - protocol: http
+  

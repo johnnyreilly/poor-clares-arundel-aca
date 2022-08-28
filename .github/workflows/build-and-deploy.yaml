@@ -1,0 +1,137 @@
+# yaml-language-server: $schema=./build.yaml
+name: Build and Deploy
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: rg-aca
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        services: [ {'imageName': 'node-service', 'directory': './WebService'}, {'imageName': 'dotnet-service', 'directory': './MailerService'} ]
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-node: ${{ steps.image-tag.outputs.image-node-service }}
+      image-dotnet: ${{ steps.image-tag.outputs.image-dotnet-service }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+            type=sha
+  
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.services.directory }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Output image tag
+        id: image-tag
+        run: echo "::set-output name=image-${{ matrix.services.imageName }}::${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-$(git rev-parse --short HEAD)" | tr '[:upper:]' '[:lower:]'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy bicep
+        uses: azure/CLI@v1
+        if: github.event_name != 'pull_request'
+        with:
+          inlineScript: |
+            REF_SHA='${{ github.ref }}.${{ github.sha }}'
+            DEPLOYMENT_NAME="${REF_SHA////-}"
+            echo "DEPLOYMENT_NAME=$DEPLOYMENT_NAME"
+
+            TAGS='{"owner":"johnnyreilly", "email":"johnny_reilly@hotmail.com"}'
+            az deployment group create \
+              --resource-group ${{ env.RESOURCE_GROUP }} \
+              --name "$DEPLOYMENT_NAME" \
+              --template-file ./infra/main.bicep \
+              --parameters \
+                  branchName='${{ github.event.number == 0 && 'main' ||  format('pr-{0}', github.event.number) }}' \
+                  webServiceImage='${{ needs.build.outputs.image-node }}' \
+                  webServicePort=3000 \
+                  webServiceIsExternalIngress=true \
+                  mailerServiceImage='${{ needs.build.outputs.image-dotnet }}' \
+                  mailerServicePort=5000 \
+                  mailerServiceIsExternalIngress=false \
+                  containerRegistry=${{ env.REGISTRY }} \
+                  containerRegistryUsername=${{ github.actor }} \
+                  containerRegistryPassword=${{ secrets.PACKAGES_TOKEN }} \
+                  tags="$TAGS" \
+                  MAIL__MAILGUNAPIKEY="${{ secrets.MAIL__MAILGUNAPIKEY }}"
