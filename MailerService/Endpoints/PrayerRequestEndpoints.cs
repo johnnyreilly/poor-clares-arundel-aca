@@ -11,16 +11,11 @@ namespace MailerService.Endpoints;
 
 public static class PrayerRequestEndpoints
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     public record SendPrayerRequestBody(string? Email, string? PrayFor);
 
     public static IEndpointRouteBuilder MapPrayerRequestEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("/SendWeatherForecast",
+        endpoints.MapPost("/SendPrayerRequest", // the URL isn't actually used directly
             // Dapr subscription in [Topic] routes prayer-requests topic to this route
             [Topic("mailer-pub-sub", "prayer-requests")]
             async (
@@ -34,27 +29,51 @@ public static class PrayerRequestEndpoints
                     if (string.IsNullOrEmpty(body.Email)) throw new Exception("Email required");
                     if (string.IsNullOrEmpty(body.PrayFor)) throw new Exception("PrayFor required");
 
-                    var weatherForecast = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                    })
-                    .ToArray();
+/*
+        const prayerRequest = {
+            from: prayerRequestFromEmail,
+            to: prayerRequestRecipientEmail,
+            subject: 'Please could you pray for me',
+            text: `Hi,
 
-                    var toEmailAddress = body.Email;
-                    var text = $@"The weather forecast is:
+I'd love it if you could pray for me about this:
 
-{string.Join("\n", weatherForecast.Select(wf => $"On {wf.Date} the weather will be {wf.Summary}"))}        
-";
+${prayFor}`
+        };
+        await mailgun.messages().send(prayerRequest);
+
+        const text = await readFileAsPromise(path.join(__dirname, 'prayerResponse.txt'));
+        const html = await readFileAsPromise(path.join(__dirname, 'prayerResponse.html'));
+        const reassuringResponse = {
+            from: prayerRequestFromEmail,
+            to: email,
+            subject: 'Your prayer request',
+            text,
+            html
+        };
+        await mailgun.messages().send(reassuringResponse);
+*/
 
                     await SendSimpleMessage(
                         mailgunApiKey: options.Value.MailgunApiKey,
-                        toEmailAddress: toEmailAddress,
-                        text: text
+                        toEmailAddress: body.Email,
+                        subject: "Please could you pray for me",
+                        text: @$"Hi,
+
+I'd love it if you could pray for me about this:
+
+{body.PrayFor}"
+);
+
+                    await SendSimpleMessage(
+                        mailgunApiKey: options.Value.MailgunApiKey,
+                        toEmailAddress: body.Email,
+                        subject: "Your prayer request",
+                        text: ReassuringResponseTextEMail,
+                        html: ReassuringResponseHTMLEMail
                     );
 
-                    return Results.Ok($"We have mailed {toEmailAddress} with the following:\n\n{text})");
+                    return Results.Ok($"We have mailed {body.Email})");
                 }
                 catch (Exception exc)
                 {
@@ -67,7 +86,13 @@ public static class PrayerRequestEndpoints
         return endpoints;
     }
 
-    static async Task<RestResponse> SendSimpleMessage(string mailgunApiKey, string toEmailAddress, string text)
+    static async Task<RestResponse> SendSimpleMessage(
+        string mailgunApiKey, 
+        string toEmailAddress, 
+        string subject, 
+        string text, 
+        string? html = null
+    )
     {
         RestClient client = new(new RestClientOptions
         {
@@ -82,9 +107,36 @@ public static class PrayerRequestEndpoints
         request.Resource = "{domain}/messages";
         request.AddParameter("from", "John Reilly <johnny_reilly@hotmail.com>");
         request.AddParameter("to", toEmailAddress);
-        request.AddParameter("subject", "Weather forecast");
+        request.AddParameter("subject", subject);
         request.AddParameter("text", text);
+        if (html != null) request.AddParameter("html", html);
 
         return await client.PostAsync(request);
     }
+
+    private const string ReassuringResponseTextEMail = @"Thank you for your prayer request.
+
+You are in our thoughts and prayers.
+
+Your Poor Clare sisters, Arundel.";
+
+    private const string ReassuringResponseHTMLEMail = @"<html>
+<head>
+    <title>Thank you for your prayer request.</title>
+</head>
+<body>
+    <div>
+        <img src=""https://www.poorclaresarundel.org/images/main/SanDamianoCrucifix.jpg"" />
+    </div>
+    <div style=""padding:10px;font-family: Verdana, Helvetica, Sans-Serif;"">
+        <p>Thank you for your prayer request.</p>
+
+        <p>You are in our thoughts and prayers.</p>
+
+        <p>Your Poor Clare sisters, Arundel.</p>
+    </div>
+</body>
+</html>
+";
+
 }
