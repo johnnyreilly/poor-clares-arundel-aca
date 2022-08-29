@@ -40,10 +40,10 @@
             "request": "launch",
             "preLaunchTask": "daprd-debug-node",
             "postDebugTask": "daprd-down-node",
-            "program": "${workspaceFolder}/WebService/index.ts",
+            "program": "${workspaceFolder}/WebService/src/server/server/index.ts",
             "cwd": "${workspaceFolder}/WebService",
             "env": {
-                "NODE_ENV": "development",
+                "NODE_ENV": "production",
                 "PORT": "3000",
                 "DAPR_HTTP_PORT": "3501",
                 "DAPR_GRPC_PORT": "50001",
@@ -51,7 +51,7 @@
                 "WEATHER_SERVICE_NAME": "dotnet-app"
             },
             "protocol": "inspector",
-            "outFiles": ["${workspaceFolder}/WebService/dist/**/*.js"],
+            "outFiles": ["${workspaceFolder}/WebService/src/server/dist/**/*.js"],
             "serverReadyAction": {
                 "action": "openExternally"
             }

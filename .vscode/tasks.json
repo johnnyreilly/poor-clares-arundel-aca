@@ -41,17 +41,17 @@
                 "cwd": "${workspaceFolder}/WebService"
             }
         },
-        {
-            "label": "webservice-client-build",
-            "type": "shell",
-            "command": "yarn build:client && yarn copy:client",
-            "options": {
-                "cwd": "${workspaceFolder}/WebService"
-            },
-            "dependsOn": [
-                "yarn-install"
-            ]
-        },
+        // {
+        //     "label": "webservice-client-build",
+        //     "type": "shell",
+        //     "command": "yarn build:client && yarn copy:client",
+        //     "options": {
+        //         "cwd": "${workspaceFolder}/WebService"
+        //     },
+        //     "dependsOn": [
+        //         "yarn-install"
+        //     ]
+        // },
         {
             "label": "webservice-server-build",
             "type": "typescript",
@@ -64,7 +64,7 @@
                 "isDefault": true
             },
             "dependsOn": [
-                "webservice-client-build"
+                // "webservice-client-build"
             ]
         },
         {
