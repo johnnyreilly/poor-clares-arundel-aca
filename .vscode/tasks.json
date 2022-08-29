@@ -24,26 +24,38 @@
             "metricsPort": 9090,
             "componentsPath": "./components",
             "type": "daprd",
-            "dependsOn":["dotnet-build"]
+            "dependsOn": [
+                "dotnet-build"
+            ]
         },
         {
             "label": "daprd-down-dotnet",
             "appId": "dotnet-app",
             "type": "daprd-down"
         },
-
         {
-            "label": "npm-install",
+            "label": "yarn-install",
             "type": "shell",
-            "command": "npm install",
+            "command": "yarn install",
             "options": {
                 "cwd": "${workspaceFolder}/WebService"
             }
         },
         {
-            "label": "webservice-build",
+            "label": "webservice-client-build",
+            "type": "shell",
+            "command": "yarn build:client && yarn copy:client",
+            "options": {
+                "cwd": "${workspaceFolder}/WebService"
+            },
+            "dependsOn": [
+                "yarn-install"
+            ]
+        },
+        {
+            "label": "webservice-server-build",
             "type": "typescript",
-            "tsconfig": "WebService/tsconfig.json",
+            "tsconfig": "WebService/src/server/tsconfig.json",
             "problemMatcher": [
                 "$tsc"
             ],
@@ -51,7 +63,9 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn":["npm-install"]
+            "dependsOn": [
+                "webservice-client-build"
+            ]
         },
         {
             "label": "daprd-debug-node",
@@ -62,7 +76,9 @@
             "metricsPort": 9091,
             "componentsPath": "./components",
             "type": "daprd",
-            "dependsOn":["webservice-build"]
+            "dependsOn": [
+                "webservice-server-build"
+            ]
         },
         {
             "label": "daprd-down-node",

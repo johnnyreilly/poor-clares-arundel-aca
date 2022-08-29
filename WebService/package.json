@@ -6,6 +6,7 @@
     "prebuild": "yarn clean && yarn",
     "build": "run-s build:client build:server",
     "build:client": "cd src/client && yarn build",
+    "copy:client": "cd src/server && yarn copy:client",
     "build:server": "cd src/server && yarn build",
     "clean": "run-s clean:client clean:server",
     "clean:client": "rimraf src/client/dist",
