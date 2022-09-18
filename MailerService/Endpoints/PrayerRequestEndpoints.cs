@@ -29,6 +29,9 @@ public static class PrayerRequestEndpoints
                     if (string.IsNullOrEmpty(body.Email)) throw new Exception("Email required");
                     if (string.IsNullOrEmpty(body.PrayFor)) throw new Exception("PrayFor required");
 
+                    var emailOfPersonToPrayFor = body.Email;
+                    var prayerRequest = body.PrayFor;
+
 /*
         const prayerRequest = {
             from: prayerRequestFromEmail,
@@ -56,24 +59,26 @@ ${prayFor}`
 
                     await SendSimpleMessage(
                         mailgunApiKey: options.Value.MailgunApiKey,
-                        toEmailAddress: body.Email,
+                        fromEmailAddress: emailOfPersonToPrayFor,
+                        toEmailAddress: options.Value.ConventEmailAddress,
                         subject: "Please could you pray for me",
                         text: @$"Hi,
 
 I'd love it if you could pray for me about this:
 
-{body.PrayFor}"
+{prayerRequest}"
 );
 
                     await SendSimpleMessage(
                         mailgunApiKey: options.Value.MailgunApiKey,
-                        toEmailAddress: body.Email,
+                        fromEmailAddress: "noreply@mg.poorclaresarundel.org",
+                        toEmailAddress: emailOfPersonToPrayFor,
                         subject: "Your prayer request",
                         text: ReassuringResponseTextEMail,
                         html: ReassuringResponseHTMLEMail
                     );
 
-                    return Results.Ok($"We have mailed {body.Email})");
+                    return Results.Ok($"We have mailed {emailOfPersonToPrayFor})");
                 }
                 catch (Exception exc)
                 {
@@ -88,6 +93,7 @@ I'd love it if you could pray for me about this:
 
     static async Task<RestResponse> SendSimpleMessage(
         string mailgunApiKey, 
+        string fromEmailAddress, 
         string toEmailAddress, 
         string subject, 
         string text, 
@@ -105,7 +111,7 @@ I'd love it if you could pray for me about this:
         RestRequest request = new();
         request.AddParameter("domain", "mg.poorclaresarundel.org", ParameterType.UrlSegment);
         request.Resource = "{domain}/messages";
-        request.AddParameter("from", "John Reilly <johnny_reilly@hotmail.com>");
+        request.AddParameter("from", fromEmailAddress);
         request.AddParameter("to", toEmailAddress);
         request.AddParameter("subject", subject);
         request.AddParameter("text", text);
