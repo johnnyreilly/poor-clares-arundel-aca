@@ -1,0 +1,31 @@
+{
+  "name": "poor-clares-arundel-koa",
+  "version": "1.0.0",
+  "description": "https://www.poorclaresarundel.org ported to koa",
+  "scripts": {
+    "prebuild": "yarn clean && yarn",
+    "build": "run-s build:client build:server",
+    "build:client": "cd src/client && yarn build",
+    "copy:client": "cd src/server && yarn copy:client",
+    "build:server": "cd src/server && yarn build",
+    "clean": "run-s clean:client clean:server",
+    "clean:client": "rimraf src/client/dist",
+    "clean:server": "rimraf src/server/dist",
+    "install:client": "cd src/client && yarn",
+    "install:server": "cd src/server && yarn",
+    "postinstall": "run-s install:client install:server",
+    "start": "cd src/server && yarn start",
+    "start:client": "cd src/client && yarn start"
+  },
+  "main": "dist/index.js",
+  "repository": "https://github.com/johnnyreilly/poor-clares-arundel-koa.git",
+  "author": "John Reilly <johnny_reilly@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "concurrently": "^3.6.1",
+    "npm-run-all": "^4.1.3",
+    "rimraf": "^2.6.2"
+  }
+}

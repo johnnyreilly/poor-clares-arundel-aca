@@ -1,0 +1,28 @@
+.header-image {
+    background-size: cover;
+    background-position: bottom;
+    max-height: 30px;;
+    min-height: 150px;
+}
+
+.header-image.header-image-main {
+    background-image: url('./images/header3.jpg');
+}
+
+.bg-primary {
+    background-color: #964E02 !important;
+    margin-bottom: 1rem;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    white-space: nowrap !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.carousel-container {
+    padding: 0.5rem;
+}
+
+.dropdown-item a {
+    display: block;
+}
