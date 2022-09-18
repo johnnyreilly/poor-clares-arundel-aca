@@ -103,7 +103,7 @@ I'd love it if you could pray for me about this:
             new HttpBasicAuthenticator("api", mailgunApiKey)
         };
         RestRequest request = new();
-        request.AddParameter("domain", "mg.priou.co.uk", ParameterType.UrlSegment);
+        request.AddParameter("domain", "mg.poorclaresarundel.org", ParameterType.UrlSegment);
         request.Resource = "{domain}/messages";
         request.AddParameter("from", "John Reilly <johnny_reilly@hotmail.com>");
         request.AddParameter("to", toEmailAddress);
