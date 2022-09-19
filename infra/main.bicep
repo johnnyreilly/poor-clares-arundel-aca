@@ -257,6 +257,18 @@ resource webServiceContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
       ingress: {
         external: webServiceIsExternalIngress
         targetPort: webServicePort
+        customDomains: [
+          // {
+          //     name: 'poorclaresarundel.org'
+          //     certificateId: '/subscriptions/subscription-id/resourceGroups/rg-poor-clares-arundel-aca/providers/Microsoft.App/managedEnvironments/shared-env/certificates/poorclaresarundel.org'
+          //     bindingType: 'SniEnabled'
+          // }
+          {
+              name: 'www.poorclaresarundel.org'
+              certificateId: '${environment.id}/certificates/poorclaresarundel.org'
+              bindingType: 'SniEnabled'
+          }
+      ]
       }
     }
     template: {
