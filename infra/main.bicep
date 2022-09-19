@@ -36,7 +36,7 @@ param storageAccountType string = 'Standard_LRS'
 @description('The name of the Storage Account')
 param storageAccountName string = 'store${uniqueString(resourceGroup().id)}'
 
-param serviceBusNamespace string = 'pubsub-namespace'
+param serviceBusNamespace string = 'poor-clares-arundel-aca-pubsub-namespace'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   name: storageAccountName
