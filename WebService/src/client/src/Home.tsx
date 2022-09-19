@@ -82,7 +82,7 @@ export class Home extends React.Component {
                         <footer className="mastfoot mt-auto">
                             <div className="inner">
                                 <p>
-                                    © Community of Poor Clares, Arundel 2014
+                                    © Community of Poor Clares, Arundel 2014-{new Date().getFullYear()} 
                                     <br /> Convent of Poor Clares, Crossbush, Arundel, BN18 9PJ
                                 </p>
                                 <p>
