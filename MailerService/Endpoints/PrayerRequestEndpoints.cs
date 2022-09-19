@@ -59,6 +59,7 @@ ${prayFor}`
 
                     await SendSimpleMessage(
                         mailgunApiKey: options.Value.MailgunApiKey,
+                        domain: options.Value.EmailDomain,
                         fromEmailAddress: emailOfPersonToPrayFor,
                         toEmailAddress: options.Value.ConventEmailAddress,
                         subject: "Please could you pray for me",
@@ -71,7 +72,8 @@ I'd love it if you could pray for me about this:
 
                     await SendSimpleMessage(
                         mailgunApiKey: options.Value.MailgunApiKey,
-                        fromEmailAddress: "noreply@mg.poorclaresarundel.org",
+                        domain: options.Value.EmailDomain,
+                        fromEmailAddress: options.Value.NoReplyEmailAddress,
                         toEmailAddress: emailOfPersonToPrayFor,
                         subject: "Your prayer request",
                         text: ReassuringResponseTextEMail,
@@ -93,6 +95,7 @@ I'd love it if you could pray for me about this:
 
     static async Task<RestResponse> SendSimpleMessage(
         string mailgunApiKey, 
+        string domain,
         string fromEmailAddress, 
         string toEmailAddress, 
         string subject, 
@@ -109,7 +112,7 @@ I'd love it if you could pray for me about this:
             new HttpBasicAuthenticator("api", mailgunApiKey)
         };
         RestRequest request = new();
-        request.AddParameter("domain", "mg.poorclaresarundel.org", ParameterType.UrlSegment);
+        request.AddParameter("domain", domain, ParameterType.UrlSegment);
         request.Resource = "{domain}/messages";
         request.AddParameter("from", fromEmailAddress);
         request.AddParameter("to", toEmailAddress);
