@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: rg-aca
+  RESOURCE_GROUP: rg-poor-clares-arundel-aca
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 

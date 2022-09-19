@@ -53,11 +53,6 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2021-06-01-preview' = {
   location: location
 }
 
-resource servicebus_authrule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2021-06-01-preview' existing = {
-  name: 'RootManageSharedAccessKey'
-  parent: serviceBus
-}
-
 resource topic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
   name: 'prayer-requests'
   parent: serviceBus
@@ -265,7 +260,7 @@ resource webServiceContainerApp 'Microsoft.App/containerApps@2022-01-01-preview'
           name: webServiceContainerAppName
           env: [
             {
-              name: 'WEATHER_SERVICE_NAME'
+              name: 'MAILER_SERVICE_NAME'
               value: mailerServiceContainerAppName
             }
           ]
