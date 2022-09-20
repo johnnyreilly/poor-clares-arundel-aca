@@ -29,7 +29,7 @@ FROM node:16 AS runtime
 ENV NODE_ENV production
 
 WORKDIR /app
-COPY --from=build-client client/build ./client/build
+COPY --from=build-client client/dist ./client/dist
 COPY --from=build-server server/dist ./dist
 COPY --from=build-server server/package.json server/yarn.lock ./
 RUN yarn --network-timeout 100000

@@ -26,8 +26,8 @@ app.use(logger);
 app.use(routes);
 
 const publicPath = isDevelopment
-    ? path.join(__dirname, '..', '..', 'client', 'build')
-    : path.join(__dirname, '..', 'client', 'build');
+    ? path.join(__dirname, '..', '..', 'client', 'dist')
+    : path.join(__dirname, '..', 'client', 'dist');
 
 const indexHtmlPath = path.join(publicPath, 'index.html');
 app.use(serve(publicPath));
