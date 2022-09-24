@@ -1,0 +1,89 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "dotnet-build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/MailerService/MailerService.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "daprd-debug-dotnet",
+            "appId": "dotnet-app",
+            "appPort": 5000,
+            "httpPort": 3500,
+            "grpcPort": 50000,
+            "metricsPort": 9090,
+            "componentsPath": "./components",
+            "type": "daprd",
+            "dependsOn": [
+                "dotnet-build"
+            ]
+        },
+        {
+            "label": "daprd-down-dotnet",
+            "appId": "dotnet-app",
+            "type": "daprd-down"
+        },
+        {
+            "label": "yarn-install",
+            "type": "shell",
+            "command": "yarn install",
+            "options": {
+                "cwd": "${workspaceFolder}/WebService"
+            }
+        },
+        // {
+        //     "label": "webservice-client-build",
+        //     "type": "shell",
+        //     "command": "yarn build:client && yarn copy:client",
+        //     "options": {
+        //         "cwd": "${workspaceFolder}/WebService"
+        //     },
+        //     "dependsOn": [
+        //         "yarn-install"
+        //     ]
+        // },
+        {
+            "label": "webservice-server-build",
+            "type": "typescript",
+            "tsconfig": "WebService/src/server/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": [
+                // "webservice-client-build"
+            ]
+        },
+        {
+            "label": "daprd-debug-node",
+            "appId": "node-app",
+            "appPort": 3000,
+            "httpPort": 3501,
+            "grpcPort": 50001,
+            "metricsPort": 9091,
+            "componentsPath": "./components",
+            "type": "daprd",
+            "dependsOn": [
+                "webservice-server-build"
+            ]
+        },
+        {
+            "label": "daprd-down-node",
+            "appId": "node-app",
+            "type": "daprd-down"
+        }
+    ]
+}

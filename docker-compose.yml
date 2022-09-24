@@ -1,0 +1,112 @@
+version: '3.4'
+
+# https://stackoverflow.com/questions/67629176/how-to-set-up-dapr-and-docker-compose-with-state-management
+services:
+  ############################
+  # MailerService + Dapr sidecar
+  ############################
+  mailerservice:
+    image: ${REGISTRY:-mailerservice}:${TAG:-latest}
+    build:
+      context: ./MailerService
+      dockerfile: Dockerfile
+    ports:
+      - "50000:50000" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    environment:
+      DOTNET_ENVIRONMENT: 'Development'
+      ASPNETCORE_URLS: 'http://+:5000'
+      DAPR_HTTP_PORT: 3500
+      DAPR_GRPC_PORT: 50000
+      DAPR_METRICS_PORT: 9090
+    env_file:
+      - ./.devcontainer/devcontainer.env
+    depends_on:
+      - redis
+    networks:
+      - poorclares
+
+  mailerservice-dapr:
+    image: "daprio/daprd:latest"
+    volumes:
+      - ./components-compose:/components
+    command: [
+      "./daprd",
+      "-app-id", "dotnet-app",
+      "-app-port", "5000",
+      "-dapr-http-port", "3500",
+      "-components-path", "./components",
+      "-placement-host-address", "placement:50006" # Dapr's placement service can be reach via the docker DNS entry
+    ]
+    network_mode: "service:mailerservice"
+    depends_on:
+      - mailerservice
+      - redis
+
+  ############################
+  # WebService + Dapr sidecar
+  ############################
+  webservice:
+    image: ${REGISTRY:-webservice}:${TAG:-latest}
+    ports:
+      - "3000:3000"
+      - "50001:50001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    build:
+      context: ./WebService
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: 'production' # 'development'
+      PORT: '3000'
+      DAPR_HTTP_PORT: 3501
+      DAPR_GRPC_PORT: 50001
+      DAPR_METRICS_PORT: 9091
+      MAILER_SERVICE_NAME: 'dotnet-app'
+    networks:
+      - poorclares
+
+  webservice-dapr:
+    image: "daprio/daprd:latest"
+    volumes:
+      - ./components-compose:/components
+    command: [
+      "./daprd",
+      "-app-id", "node-app",
+      "-app-port", "3000",
+      "-dapr-http-port", "3501",
+      "-components-path", "./components",
+      "-placement-host-address", "placement:50006" # Dapr's placement service can be reach via the docker DNS entry
+    ]
+    network_mode: "service:webservice"
+    depends_on:
+      - webservice
+      - redis
+
+  ############################
+  # Redis state store
+  ############################
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - poorclares
+
+  ############################
+  # Dapr placement service
+  ############################
+  placement:
+    image: "daprio/dapr:latest"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - poorclares
+
+networks:
+  poorclares:
+    name: poorclares
+    external: false    
+      
+
+# dotnet dev-certs https --trust
+# cd MailerService && dapr run --app-id dotnet-app --app-port 5000 --dapr-http-port 3501 -- dotnet run
+# cd WebService && dapr run --app-id node-app --app-port 3000 --dapr-http-port 3500 -- node ./dist/index.js
