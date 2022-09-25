@@ -45,14 +45,40 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
             <script type="application/ld+json">{JSON.stringify(eventStructuredData)}</script>
             <h3>Events</h3>
 
-            <h4>Covid 19</h4>
+            <p>The Poor Clares are glad to be able to welcome anyone who comes to join them in their times of prayer. Our regular timetable is:</p>
 
-            <p>We are sorry but for the present our Chapel and guest house remain closed to the public.</p>
+            <ul>
+                <li><b>7.30 am</b> Morning Prayer</li>
 
-            <p>
-                Morning and Evening Prayer are live-streamed on Facebook most days as a way of sharing our lives and
-                liturgy while we cannot invite anyone to join us physically. We keep you in our prayers.
-            </p>
+                <li><b>8.30 am Mondays and Wednesdays</b> Holy Mass, other days of the week a liturgy of the Word.</li>
+
+                <li><b>9 am (ish)</b> Office of the Passion</li>
+
+                <li><b>12 noon</b> Office of Readings</li>
+
+                <li><b>5.50 pm</b> Monday to Friday Evening Prayer</li>
+
+                <li><b>8 pm</b> Night Prayer</li>
+            </ul>
+
+            <h5>Saturdays</h5>
+
+            <ul>
+                <li><b>5.15 pm</b> Evening Prayer</li>
+
+                <li><b>6 pm</b> Holy Mass</li>
+            </ul>
+
+            <h5>Sundays</h5>
+
+            <ul>
+                <li><b>4.30 pm</b> Exposition of the Blessed Sacrament</li>
+
+                <li><b>5.25 pm</b> Evening Prayer</li>
+            </ul>
+
+            <p>All times can be subject to occasional change, so if travelling a distance you might like to phone to check. Sometimes we have a visiting priest, so Mass on other days of the week too, but this is not the norm.</p>
+
 
             <h4>Annual Events</h4>
             <p>Come and join us for these events which take place throughout the year!</p>
