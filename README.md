@@ -10,4 +10,19 @@ Test locally with:
 docker-compose up
 ```
 
+## Custom domain
+
+To use custom domains with Azure Container Apps you need to create a certificate:
+
+https://learn.microsoft.com/en-gb/azure/container-apps/custom-domains-certificates
+
+Certificate created with:
+
+```shell
+sudo openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+  -keyout poorclaresarundel.org.key -out poorclaresarundel.org.crt -subj "/CN=poorclaresarundel.org" \
+  -addext "subjectAltName=DNS:poorclaresarundel.org,DNS:www.poorclaresarundel.org,IP:20.31.220.24"
+sudo chmod +r poorclaresarundel.org.key
+cat poorclaresarundel.org.crt poorclaresarundel.org.key > poorclaresarundel.org.pem
+```
 
