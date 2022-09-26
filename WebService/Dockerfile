@@ -1,7 +1,7 @@
 ##
 ## IMAGE: build-client
 ##
-FROM node:16 AS build-client
+FROM node:18 AS build-client
 WORKDIR /client
 
 COPY src/client/package.json src/client/yarn.lock ./
@@ -13,7 +13,7 @@ RUN yarn build
 ##
 ## IMAGE: build-server
 ##
-FROM node:16 AS build-server
+FROM node:18 AS build-server
 WORKDIR /server
 
 COPY src/server/package.json src/server/yarn.lock ./
@@ -25,7 +25,7 @@ RUN yarn build
 ##
 ## IMAGE: runtime
 ##
-FROM node:16 AS runtime
+FROM node:18 AS runtime
 ENV NODE_ENV production
 
 WORKDIR /app
