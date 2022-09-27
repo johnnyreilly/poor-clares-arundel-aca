@@ -32,7 +32,7 @@ jobs:
       image-dotnet: ${{ steps.image-tag.outputs.image-dotnet-service }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Dump GitHub context
         env:
@@ -105,7 +105,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         
       # - name: Azure Login
       #   uses: azure/login@v1
