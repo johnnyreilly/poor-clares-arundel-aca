@@ -1,0 +1,18 @@
+.house
+{
+    max-height: 400px;
+    transition: 0.20s ease-out;
+}
+
+    .house:hover
+    {
+        transform: scale(0.9);
+    }
+
+.footer
+{
+    font-size: 0.70em;
+    /*background: url('images/smalltau.jpg') no-repeat left top;*/
+    margin: 20px 0 10px 0;
+    /* padding-left: 50px; */
+}
