@@ -33,6 +33,7 @@ const catholicChurchStructuredData = {
   image: house.src,
 };
 
+export const homePath="/";
 
 export default function Index() {
   // const { data, error } = useSwr<User[]>('/api/users', fetcher)
@@ -42,7 +43,6 @@ export default function Index() {
 
   return (
     <>
-      {/* <script type="application/ld+json">{JSON.stringify(catholicChurchStructuredData)}</script> */}
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(catholicChurchStructuredData) }}
