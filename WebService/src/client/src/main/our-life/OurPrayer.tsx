@@ -9,8 +9,8 @@ export const ourPrayerPath = '/our-prayer';
 
 export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
     <>
-        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur2} alt="" />
         <h3>Our Prayer</h3>
+        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur2} alt="Helen sitting in the cemetary" />
 
         <p>Our life of prayer falls into three natural parts. These are:</p>
 
@@ -31,7 +31,7 @@ export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
         </p>
 
         <h3>Our usual timetable</h3>
-        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur3} alt="" />
+        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur3} alt="ikon of Clare washing the sisters feet" />
 
         <ul>
             <li>5.30 Rise. A quick breakfast followed by time for personal prayer, reading, study until 7.30</li>
