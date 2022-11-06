@@ -31,6 +31,7 @@ export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
         </p>
 
         <h3>Our usual timetable</h3>
+        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur3} alt="" />
 
         <ul>
             <li>5.30 Rise. A quick breakfast followed by time for personal prayer, reading, study until 7.30</li>
@@ -61,8 +62,6 @@ export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
             <li>8.00 Compline or Night Prayer, which closes the day.</li>
         </ul>
 
-        <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur3} alt="" />
-
         <p>
             Wednesday evening and Thursday morning there is no Office celebrated in public, the sisters have a ‘hermit’
             space, each praying alone.
@@ -88,7 +87,6 @@ export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
         </p>
 
         <img className="float-right img-thumbnail img-space-right-and-bottom" src={prayerOur1} alt="" />
-
         <h3>Prayer Requests</h3>
 
         <p>If you would like to ask the community to pray for a special intention <Link to={prayerRequestsPath}>mail us a prayer request</Link>.</p>
