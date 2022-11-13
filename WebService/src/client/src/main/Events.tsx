@@ -6,6 +6,7 @@ import strewnCross from './images/strewnCross.jpg';
 import easterVigil from './images/EasterVigil.jpg';
 import crib from './images/crib.jpg';
 import taize from './images/Taize.png';
+import grace from './images/event-grace.jpg';
 
 export const eventsPath = '/events';
 
@@ -43,7 +44,17 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
     return (
         <>
             <script type="application/ld+json">{JSON.stringify(eventStructuredData)}</script>
+            <Card className="float-right">
+                <CardImg top src={grace} />
+            </Card>
+
             <h3>Events</h3>
+
+            <h4>Sunday 4th December 3pm: Vessel of Grace</h4>
+
+            <p>An Advent meditation in music and words.</p>
+
+            <h4>Regular Events</h4>
 
             <p>The Poor Clares are glad to be able to welcome anyone who comes to join them in their times of prayer. Our regular timetable is:</p>
 
