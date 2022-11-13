@@ -6,10 +6,7 @@
 		"dockerfile": "Dockerfile",
 		"args": { 
 			// Update 'VARIANT' to pick a .NET Core version: 3.1, 5.0, 6.0
-			"VARIANT": "6.0",
-			// Options
-			"NODE_VERSION": "lts/*",
-			"INSTALL_AZURE_CLI": "true"
+			"VARIANT": "6.0"
 		}
 	},
 	"runArgs": ["--init", "--privileged", "--env-file", ".devcontainer/devcontainer.env"],
@@ -18,8 +15,7 @@
 
 	// Use this environment variable if you need to bind mount your local source code into a new container.
 	"remoteEnv": {
-		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-		"PATH": "/home/vscode/.dapr/bin/:/home/vscode/.dotnet/tools:$PATH${containerEnv:PATH}"
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
 	},
 	
 	// Set *default* container specific settings.json values on container create.
@@ -43,6 +39,11 @@
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 	"features": {
-		"azure-cli": "latest"
+		"ghcr.io/devcontainers/features/azure-cli:1": {
+            "version": "latest"
+        },
+		"ghcr.io/devcontainers/features/node:1": {
+            "version": "latest"
+        }
 	}
 }
