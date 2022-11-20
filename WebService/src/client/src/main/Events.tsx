@@ -102,7 +102,7 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <h5>Solemnity of St Clare</h5>
 
-            <p>10th August, Transitus with 1st Vespers: 5.30pm. Followed by supper with the community</p>
+            <p>10th August, Transitus with 1st Vespers: 5.30pm.</p>
 
             <p>11th August: 8.30am Mass of St Clare</p>
 
@@ -149,7 +149,7 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <p>1st Vespers: 5.30pm</p>
 
-            <p>Blessing of the Crib and Midnight Mass: 11.15pm</p>
+            <p>10.30: Office of Readings and blessing of the Crib.</p>
 
             <Card className="float-right">
                 <CardImg top src={crib} />
@@ -158,8 +158,6 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
             <h5>Christmas Day</h5>
 
             <p>Christmas Morning Mass: 8.30am</p>
-
-            <p>Please join us for refreshments afterwards</p>
 
             <Card className="float-left">
                 <CardImg top src={taize} />
