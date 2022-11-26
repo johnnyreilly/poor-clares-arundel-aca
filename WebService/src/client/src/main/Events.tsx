@@ -157,7 +157,7 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <h5>Christmas Day</h5>
 
-            Christmas Day: Mass at 8am.</p>
+            <p>Mass at 8am.</p>
 
             <Card className="float-left">
                 <CardImg top src={taize} />
