@@ -6,7 +6,6 @@ import strewnCross from './images/strewnCross.jpg';
 import easterVigil from './images/EasterVigil.jpg';
 import crib from './images/crib.jpg';
 import taize from './images/Taize.png';
-import grace from './images/event-grace.jpg';
 
 export const eventsPath = '/events';
 
@@ -44,10 +43,6 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
     return (
         <>
             <script type="application/ld+json">{JSON.stringify(eventStructuredData)}</script>
-            <Card className="float-right">
-                <CardImg top src={grace} />
-            </Card>
-
             <h3>Events</h3>
 
             <h4>Regular Events</h4>
