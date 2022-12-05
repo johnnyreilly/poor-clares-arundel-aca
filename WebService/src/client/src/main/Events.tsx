@@ -50,10 +50,6 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <h3>Events</h3>
 
-            <h4>Sunday 4th December 3pm: Vessel of Grace</h4>
-
-            <p>An Advent meditation in music and words.</p>
-
             <h4>Regular Events</h4>
 
             <p>The Poor Clares are glad to be able to welcome anyone who comes to join them in their times of prayer. Our regular timetable is:</p>
