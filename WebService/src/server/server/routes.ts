@@ -10,7 +10,7 @@ import { DaprClient } from "@dapr/dapr";
 const daprHost = "localhost"; // Dapr Sidecar Host
 const daprPort = `${process.env.DAPR_HTTP_PORT || 3501}`; // Dapr Sidecar Port
 
-const client = new DaprClient(daprHost, daprPort);
+const client = new DaprClient({daprHost, daprPort});
 
 const router = new Router();
 
