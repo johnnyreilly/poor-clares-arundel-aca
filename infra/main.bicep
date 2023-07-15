@@ -53,7 +53,7 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2021-11-01' = {
   location: location
 }
 
-// I'm not sure why this is needed, but it is
+// I'm not sure why this is needed... but it is
 #disable-next-line no-unused-existing-resources
 resource servicebus_authrule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2021-11-01' existing = {
   name: 'RootManageSharedAccessKey'
