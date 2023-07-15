@@ -54,6 +54,7 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2021-11-01' = {
 }
 
 // I'm not sure why this is needed, but it is
+#disable-next-line no-unused-existing-resources
 resource servicebus_authrule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2021-11-01' existing = {
   name: 'RootManageSharedAccessKey'
   parent: serviceBus
@@ -102,7 +103,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
+resource environment 'Microsoft.App/managedEnvironments@2022-10-01' = {
   name: environmentName
   location: location
   tags: tags
@@ -112,11 +113,11 @@ resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
         customerId: workspace.properties.customerId
-        sharedKey: listKeys(workspace.id, workspace.apiVersion).primarySharedKey
+        sharedKey: workspace.listKeys().primarySharedKey
       }
     }
   }
-  resource statestoreComponent 'daprComponents@2022-03-01' = {
+  resource statestoreComponent 'daprComponents@2022-10-01' = {
     name: 'statestore'
     properties: {
       componentType: 'state.azure.blobstorage'
@@ -149,7 +150,7 @@ resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
       ]
     }
   }
-  resource pubsubComponent 'daprComponents@2022-03-01' = {
+  resource pubsubComponent 'daprComponents@2022-10-01' = {
     name: 'mailer-pub-sub'
     properties: {
       componentType: 'pubsub.azure.servicebus'
@@ -174,7 +175,7 @@ resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
   }
 }
 
-resource mailerServiceContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
+resource mailerServiceContainerApp 'Microsoft.App/containerApps@2022-10-01' = {
   name: mailerServiceContainerAppName
   tags: tags
   location: location
@@ -229,7 +230,7 @@ resource mailerServiceContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
   }
 }
 
-resource webServiceContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
+resource webServiceContainerApp 'Microsoft.App/containerApps@2022-10-01' = {
   name: webServiceContainerAppName
   tags: tags
   location: location
