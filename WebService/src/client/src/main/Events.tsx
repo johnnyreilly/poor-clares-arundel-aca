@@ -93,9 +93,7 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <h5>Solemnity of St Clare</h5>
 
-            <p>10th August, Transitus with 1st Vespers: 5.30pm.</p>
-
-            <p>11th August: 8.30am Mass of St Clare</p>
+            <p>11th August - 12 noon Mass of St Clare</p>
 
             <Card className="float-right">
                 <CardImg top src={stFrancis} />
@@ -103,9 +101,9 @@ Christmas Day - 8.30am: Christmas Morning Mass, please join us for refreshments 
 
             <h5>Solemnity of St. Francis: 4th October</h5>
 
-            <p>3rd Oct – Transitus with 1st Vespers: 5.30pm</p>
+            <p>3rd October – Transitus with 1st Vespers: 5.30pm</p>
 
-            <p>4th Oct – Mass of St. Francis: 8.30am</p>
+            <p>4th October – Mass of St. Francis: 8.30am</p>
 
             <h5>The Easter Triduum</h5>
 
