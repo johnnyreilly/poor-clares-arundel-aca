@@ -73,7 +73,7 @@ export const OurPrayer: React.FC<React.PropsWithChildren<unknown>> = _props => (
 
         <h4>Other forms of prayer</h4>
 
-        <p>Sunday afternoons we usually have Exposition of the Blessed Sacrament at 4.30pm.</p>
+        <p>Sundays we usually have Exposition of the Blessed Sacrament from 8am to 9am and again from 4.45pm to 5.30pm.</p>
 
         <p>
             Christian Meditation (John Main) group: Tuesday evenings, c.7pm - 8.30pm.
