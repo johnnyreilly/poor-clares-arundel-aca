@@ -1,5 +1,7 @@
 # Poor Clares Arundel
 
+**DEPRECATED - REPLACED BY https://github.com/johnnyreilly/poorclaresarundel-aca**
+
 [![Build and Deploy](https://github.com/johnnyreilly/poor-clares-arundel-aca/actions/workflows/build-and-deploy.yaml/badge.svg)](https://github.com/johnnyreilly/poor-clares-arundel-aca/actions/workflows/build-and-deploy.yaml)
 
 Built with Azure Container Apps and deployed here: https://main-web.yellowcliff-09c0e434.northeurope.azurecontainerapps.io/
